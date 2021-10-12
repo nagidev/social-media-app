@@ -1,7 +1,7 @@
 # social-media-app
 ## powered by ReactJS, ExpressJS and NodeJS
 
-# Run ( Development )
+## Run ( Development )
 from the project's root directory
 run `npm install`
 then `npm run dev` to start a development server
