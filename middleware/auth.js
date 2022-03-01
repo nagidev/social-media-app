@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
     const token = req.header('x-auth-token')
 
     if (!token) {
-        return res.status(401).json({ errors: [{ msg: 'Not authorised!' }] })
+        return res.status(401).json({ errors: [{ msg: 'Not authorised! No token provided!' }] })
     }
 
     try {

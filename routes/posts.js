@@ -7,7 +7,7 @@ const auth = require('../middleware/auth')
 const User = require('../models/User')
 const Post = require('../models/Post')
 
-// POST /
+// POST api/posts/
 // Create a post
 router.post('/',
     [
@@ -34,7 +34,7 @@ router.post('/',
             const post = new Post({
                 user: req.user.id,
                 text: req.body.text,
-                name: user.username
+                username: user.username
             })
 
             // Save to DB
@@ -48,7 +48,7 @@ router.post('/',
         }
     })
 
-// GET /
+// GET api/posts/
 // Get all posts
 router.get('/', auth, async (req, res) => {
     try {
@@ -65,7 +65,7 @@ router.get('/', auth, async (req, res) => {
     }
 })
 
-// GET /:id
+// GET api/posts/:id
 // Get post by id
 router.get('/:id', auth, async (req, res) => {
     try {
@@ -85,7 +85,7 @@ router.get('/:id', auth, async (req, res) => {
     }
 })
 
-// DELETE /:id
+// DELETE api/posts/:id
 // Delete post by id
 router.delete('/:id', auth, async (req, res) => {
     try {
@@ -108,7 +108,7 @@ router.delete('/:id', auth, async (req, res) => {
     }
 })
 
-// PUT /like/:id
+// PUT api/posts/like/:id
 // Like/unlike a post
 router.put('/like/:id', auth, async (req, res) => {
     try {

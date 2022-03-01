@@ -16,7 +16,7 @@ const AppNavbar = () => {
     const { user, logout } = useAuth()
 
     return (
-        <Navbar variant='primary' >
+        <Navbar variant='primary' bg='light' sticky='top' className='shadow' >
             <Container>
                 <Navbar.Brand href='/' >Phasebook</Navbar.Brand>
                 <Nav className='ms-auto'>

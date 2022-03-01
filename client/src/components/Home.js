@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { PostProvider } from '../contexts/PostContext'
 
 import Container from 'react-bootstrap/Container'
 import Spinner from 'react-bootstrap/Spinner'
@@ -29,19 +30,21 @@ const Home = () => {
     }, [])
 
     return (
-        <Container style={{maxWidth: '40rem'}}>
-            {loading
-                ?
-                <div className='text-center'>
-                    <Spinner animation='border' role='status' variant='primary'>
-                        <span className='visually-hidden'>Loading...</span>
-                    </Spinner>
-                </div>
-                : user
-                    ? <Timeline />
-                    : <h2 className='text-center'><a href='/login'>Log in</a> to explore!</h2>
-            }
-        </Container>
+        <PostProvider>
+            <Container style={{ maxWidth: '40rem' }} className='mt-3' >
+                {loading
+                    ?
+                    <div className='text-center'>
+                        <Spinner animation='border' role='status' variant='primary'>
+                            <span className='visually-hidden'>Loading...</span>
+                        </Spinner>
+                    </div>
+                    : user
+                        ? <Timeline />
+                        : <h2 className='text-center'><a href='/login'>Log in</a> to explore!</h2>
+                }
+            </Container>
+        </PostProvider>
     )
 };
 

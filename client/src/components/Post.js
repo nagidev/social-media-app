@@ -1,47 +1,71 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const Post = ({baseUrl, post}) => {
-    const [show, setShow] = useState(false)
-    const [liking, setLiking] = useState(false);
-    const [disliking, setDisliking] = useState(false);
-    const [liked, setLike] = useState(false);
-    const [disliked, setDislike] = useState(false);
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
+import Tooltip from 'react-bootstrap/Tooltip'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 
-    const resetTransform = () => {
-        setLiking(false);
-        setDisliking(false)
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMessage, faShareNodes, faTrash, faHeart } from '@fortawesome/free-solid-svg-icons'
+
+import useAuth from '../hooks/useAuth'
+import usePosts from "../hooks/usePosts"
+
+const Post = ({ id, user_id, username, text, likes, comments }) => {
+    const [curLikes, setLikes] = useState(likes)
+
+    const { user } = useAuth()
+    const { likePost, deletePost } = usePosts()
+    const navigate = useNavigate()
+
+    const handleLike = async () => {
+        const token = sessionStorage.getItem('sessionToken')
+        if (token) {
+            const newLikes = await likePost(token, id)
+            setLikes(newLikes)
+        }
     }
 
+    const handleDelete = async () => {
+        const token = sessionStorage.getItem('sessionToken')
+        if (token) {
+            await deletePost(token, id)
+            navigate('/')
+        }
+    }
+    
+    const likeCount = (props) => (
+        <Tooltip {...props}>{curLikes.length}</Tooltip>
+    )
+
+    const commentCount = (props) => (
+        <Tooltip {...props}>{comments.length}</Tooltip>
+    )
+
     return (
-        <div
-            className={`
-                post flex-col flex-end card bg-light shadow
-                ${liking?"liking":""}
-                ${disliking?"disliking":""}
-                `}
-            onMouseOver={() => {setShow(true)}}
-            onMouseLeave={() => {resetTransform(); setShow(false)}}
-            onMouseUp={resetTransform}
-            onMouseOut={resetTransform}
-            >
-            <img alt={post.title} src={baseUrl+post.image}/>
-            <div className="flex-grow"></div>
-            <div className={`card info bg-light shadow`}>
-                <h3>{post.username}</h3>
-                <p>{post.title}</p>
-                <div className={`flex-row btn-group ${show?"peek":"hide"}`}>
-                    <button
-                        className={`btn ${liked?"bg-dark":"bg-light"}`}
-                        onMouseDown={() => {setLiking(true); setLike(!liked); setDislike(false)}}
-                        ><h3>Baa</h3></button>
-                    <p className="btn bg-light">0</p>
-                    <button
-                        className={`btn ${disliked?"bg-dark":"bg-light"}`}
-                        onMouseDown={() => {setDisliking(true); setDislike(!disliked); setLike(false)}}
-                        ><h3>Ewe</h3></button>
+        <Card className='my-3'>
+            <Card.Body>
+                <Card.Text>{username}</Card.Text>
+                <Card.Title>{text}</Card.Title>
+                <div className='d-flex flex-row justify-content-end align-items-center'>
+                    <OverlayTrigger overlay={likeCount} delay={{hide: 400}}>
+                        <Button variant='link' onClick={handleLike} ><FontAwesomeIcon icon={faHeart} /></Button>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={commentCount} delay={{hide: 400}}>
+                        <Button variant='link'><FontAwesomeIcon icon={faMessage} /></Button>
+                    </OverlayTrigger>
+                    <Button variant='link'>
+                        <FontAwesomeIcon icon={faShareNodes} />
+                    </Button>
+                    {(user._id === user_id) &&
+                        <Button variant='link' onClick={handleDelete} className='text-danger'>
+                            <FontAwesomeIcon icon={faTrash} />
+                        </Button>
+                    }
                 </div>
-            </div>
-        </div>
+            </Card.Body>
+        </Card>
     );
 };
 
