@@ -1,29 +1,35 @@
-import React, { useEffect, useState } from "react";
-import axios from 'axios';
+import React, { useState } from 'react'
 
-import Post from "./Post";
+import Container from 'react-bootstrap/Container'
+import Card from 'react-bootstrap/Card'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
-const Timeline = ({baseUrl, token}) => {
-    const [posts, setPosts] = useState(null)
+// import useAuth from '../hooks/useAuth'
 
-    useEffect(() => {
-        axios.get(baseUrl+'timeline', { params: { data : token } } )
-            .then((res) => {
-                setPosts(res.data)
-            })
-    }, [baseUrl, token])
+const Timeline = () => {
+    const [post, setPost] = useState()
 
-    if (!posts) return (<></>)
+    //const { user } = useAuth()
+
+    const handlePost = (e) => {
+        e.preventDefault()
+        console.log(post)
+    }
 
     return (
-        <div className="flex-center visible">
-            <div className="w-75 flex-center" id="timeline">
-                {posts.map(post => (
-                    <Post baseUrl={baseUrl} post={post} />
-                ))}
-            </div>
-        </div>
+        <Container>
+            <h1>Home</h1>
+            <Card>
+                <Card.Body>
+                    <Form onSubmit={handlePost}>
+                        <Form.Control type='text' placeholder='New post...' onChange={(e) => setPost({ ...post, text: e.target.value })} />
+                        <Button type='submit' className='my-2'>Post</Button>
+                    </Form>
+                </Card.Body>
+            </Card>
+        </Container>
     )
-};
+}
 
-export default Timeline;
+export default Timeline

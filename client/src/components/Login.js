@@ -10,7 +10,7 @@ import Spinner from 'react-bootstrap/Spinner'
 
 import useAuth from '../hooks/useAuth'
 
-const Signup = () => {
+const Login = () => {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
     const [errors, setErrors] = useState()
@@ -18,12 +18,13 @@ const Signup = () => {
 
     const navigate = useNavigate()
 
-    const { signup } = useAuth()
+    const { login } = useAuth()
 
-    const handleSignup = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault()
         setLoading(true)
-        const response = await signup(username, password)
+
+        const response = await login(username, password)
 
         if (response.errors) {
             setErrors(response.errors)
@@ -49,22 +50,22 @@ const Signup = () => {
             }}>
             <Card className='shadow' style={{ width: '18rem' }}>
                 <Card.Body>
-                    <Card.Title>Signup</Card.Title>
+                    <Card.Title>Login</Card.Title>
                     {errors && errors.map((err, idx) => <Alert key={idx} variant='danger'>{err.msg}</Alert>)}
-                    <Form onSubmit={handleSignup}>
+                    <Form onSubmit={handleLogin}>
                         <FloatingLabel label='Username' className='mb-3' controlId='formUsername'>
                             <Form.Control type='text' placeholder='Username' onChange={(e) => setUsername(e.target.value)} />
                         </FloatingLabel>
                         <FloatingLabel label='Password' className='mb-3' controlId='formPassword'>
                             <Form.Control type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
                         </FloatingLabel>
-                        <Button type='submit' >{loading ? <Spinner animation='border' variant='light' size='sm' /> : "Signup"}</Button>
-                        <Button onClick={() => navigate('/login')} variant='link' >Login</Button>
+                        <Button type='submit' >{loading ? <Spinner animation='border' variant='light' size='sm' /> : "Login"}</Button>
+                        <Button onClick={() => navigate('/signup')} variant='link' >Signup</Button>
                     </Form>
                 </Card.Body>
             </Card>
-        </div>
+        </div >
     )
 }
 
-export default Signup
+export default Login

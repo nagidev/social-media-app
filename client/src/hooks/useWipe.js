@@ -5,7 +5,7 @@ const useWipe = ({duration, amount}) => {
 
     const style = {
         backfaceVisiblity: 'hidden',
-        willCHange: 'clip-path',
+        willChange: 'clip-path',
         transition: `${state.duration}ms ease-out`,
         clipPath: `inset(0 ${state.isWiped?state.amount:0}% -1% 0)`,
         backgroundPositionX: `${state.isWiped?-state.amount:0}px`,
