@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const { check, validationResult } = require('express-validator')
+const fs = require('fs')
+const multer = require('multer')
+const upload = multer({ dest: 'public/images/' })
 
 const auth = require('../middleware/auth')
 
@@ -12,6 +15,7 @@ const Post = require('../models/Post')
 router.post('/',
     [
         auth,
+        upload.single('file'),
         [
             check('text', 'Provide text for the post').notEmpty()
         ]
@@ -36,6 +40,11 @@ router.post('/',
                 text: req.body.text,
                 username: user.username
             })
+
+            // Add file
+            if (req.file) {
+                post.filePath = req.file.destination + req.file.filename
+            }
 
             // Save to DB
             await post.save()
@@ -95,6 +104,15 @@ router.delete('/:id', auth, async (req, res) => {
             return res.status(404).json({ msg: 'Post not found' })
         } else if (post.user.toString() !== req.user.id) {
             return res.status(401).json({ msg: 'Unauthorised.' })
+        }
+
+        // delete image file if exists
+        if (post.filePath) {
+            fs.unlink(post.filePath, (err) => {
+                if (err) {
+                    console.log('Unlink of file failed : ', err)
+                }
+            })
         }
 
         await post.remove()

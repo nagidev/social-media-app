@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 
-const API_URL = 'http://192.168.1.38:3001'
+const API_URL = 'http://localhost:3001'
 const AuthContext = React.createContext()
 
 const AuthProvider = ({ children }) => {

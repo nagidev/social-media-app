@@ -9,6 +9,9 @@ const PostSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    filePath: {
+        type: String
+    },
     username: {
         type: String
     },
