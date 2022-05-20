@@ -59,7 +59,7 @@ router.post('/',
 
             // Return token
             jwt.sign(
-                { user: { id: user.id } },
+                { user: { id: user.id, username: user.username } },
                 process.env.JWT_KEY,
                 { expiresIn: 360000 },
                 (err, token) => {

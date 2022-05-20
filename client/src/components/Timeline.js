@@ -41,7 +41,7 @@ const Timeline = () => {
             return
         }
 
-        navigate('/')
+        setPosts([response, ...posts])
     }
 
     const loadPosts = async () => {

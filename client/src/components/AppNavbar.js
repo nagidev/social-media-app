@@ -9,25 +9,26 @@ import Button from 'react-bootstrap/Button'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faTwitter } from '@fortawesome/free-brands-svg-icons'
 
 import useAuth from "../hooks/useAuth";
 
 const AppNavbar = () => {
-    const { user, logout } = useAuth()
+    const { _user, logout } = useAuth()
 
     return (
         <Navbar variant='primary' bg='light' sticky='top' >
             <Container>
-                <Navbar.Brand href='/' >Urser</Navbar.Brand>
+                <Navbar.Brand href='/' ><FontAwesomeIcon icon={faTwitter}/></Navbar.Brand>
                 <Nav className='ms-auto'>
-                    {user
+                    {_user
                         ?
                         <Dropdown align='end'>
                             <Dropdown.Toggle className='text-light'>
                                 <FontAwesomeIcon icon={faUser} />
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <Dropdown.Item as={NavLink} to='/profile' className='d-flex justify-content-between align-items-center' >
+                                <Dropdown.Item as={NavLink} to={`/users/${_user.username}`} className='d-flex justify-content-between align-items-center' >
                                     Profile
                                     <FontAwesomeIcon icon={faUser} />
                                 </Dropdown.Item>

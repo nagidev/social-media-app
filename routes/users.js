@@ -29,10 +29,27 @@ router.get('/', auth, async (req, res) => {
 
 // GET /:id
 // Get user data by id
-router.get('/:id', auth, async (req, res) => {
+router.get('/id/:id', auth, async (req, res) => {
     try {
         const user = await User.findById(req.params.id).select('-password')
 
+        if (!user) {
+            return res.status(400).json({ errors: [{ msg: 'Invalid credentials.' }] })
+        }
+
+        res.json(user)
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).send('Server error.')
+    }
+})
+
+// GET /:username
+// Get user data by username
+router.get('/:username', auth, async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.params.username }).select('-password')
+        
         if (!user) {
             return res.status(400).json({ errors: [{ msg: 'Invalid credentials.' }] })
         }

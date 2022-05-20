@@ -76,7 +76,7 @@ router.get('/', auth, async (req, res) => {
 
 // GET api/posts/:id
 // Get post by id
-router.get('/:id', auth, async (req, res) => {
+router.get('/id/:id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
 
@@ -90,6 +90,23 @@ router.get('/:id', auth, async (req, res) => {
         if (err.kind === 'ObjectId') {
             return res.status(404).json({ msg: 'Post not found' })
         }
+        res.status(500).send('Server error.')
+    }
+})
+
+// GET api/posts/:username
+// Get posts by username
+router.get('/:username', auth, async (req, res) => {
+    try {
+        const posts = await Post.find({username: req.params.username}).sort({ date: -1 })
+
+        if (!posts) {
+            return res.status(404).json({ msg: 'Post not found' })
+        }
+
+        res.json(posts)
+    } catch (err) {
+        console.log(err.message)
         res.status(500).send('Server error.')
     }
 })
@@ -143,6 +160,48 @@ router.put('/like/:id', auth, async (req, res) => {
 
         await post.save()
         res.json(post.likes)
+    } catch (err) {
+        console.log(err.message)
+        if (err.kind === 'ObjectId') {
+            return res.status(404).json({ msg: 'Post not found' })
+        }
+        res.status(500).send('Server error.')
+    }
+})
+
+// PUT api/posts/comment/:id
+// Comment on a post
+router.put('/comment/:id', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+
+        // Add comment
+        const comment = { user: req.user.id, username: req.user.username, text: req.body.text }
+        post.comments.push(comment)
+
+        await post.save()
+        res.json(post.comments)
+    } catch (err) {
+        console.log(err.message)
+        if (err.kind === 'ObjectId') {
+            return res.status(404).json({ msg: 'Post not found' })
+        }
+        res.status(500).send('Server error.')
+    }
+})
+
+// PUT api/posts/comment/:id/del/:cid
+// Remove a comment on a post
+router.put('/comment/:id/del/:cid', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+
+        // Remove comment
+        const removeIndex = post.comments.indexOf(req.params.cid)
+        post.comments.splice(removeIndex, 1)
+
+        await post.save()
+        res.json(post.comments)
     } catch (err) {
         console.log(err.message)
         if (err.kind === 'ObjectId') {

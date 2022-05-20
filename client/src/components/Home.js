@@ -10,7 +10,7 @@ import useAuth from '../hooks/useAuth'
 
 const Home = () => {
     const [loading, setLoading] = useState(false)
-    const { user, getUser } = useAuth()
+    const { _user, getUser } = useAuth()
 
     const loadUser = async () => {
         const token = sessionStorage.getItem('sessionToken')
@@ -39,7 +39,7 @@ const Home = () => {
                             <span className='visually-hidden'>Loading...</span>
                         </Spinner>
                     </div>
-                    : user
+                    : _user
                         ? <Timeline />
                         : <h2 className='text-center'><a href='/login'>Log in</a> to explore!</h2>
                 }

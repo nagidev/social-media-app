@@ -1,4 +1,4 @@
-$primary: #7325cc;
+$primary: rgb(81, 185, 255);
 $secondary: #cab0e7;
 $dark: #22313b;
 
@@ -14,5 +14,14 @@ $navbar-light-toggler-border-color: rgba($primary, .00) !default;
 
 $input-btn-padding-y: 0.5rem !default;
 $input-btn-padding-x: 1.5rem !default;
+
+.post-user:hover, .post-text:hover, .post-image:hover {
+    cursor: pointer;
+}
+
+.post-user:hover {
+    text-decoration: underline;
+    color: $primary;
+}
 
 @import '../../node_modules/bootstrap/scss/bootstrap';

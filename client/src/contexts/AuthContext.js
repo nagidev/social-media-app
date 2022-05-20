@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:3001'
 const AuthContext = React.createContext()
 
 const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null)
+    const [_user, setUser] = useState(null)
 
     const getUser = async (token) => {
         const config = { headers: { 'x-auth-token': token } }
@@ -62,7 +62,7 @@ const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, getUser, getUsers, signup, login, logout, deleteUser }}>
+        <AuthContext.Provider value={{ _user, getUser, getUsers, signup, login, logout, deleteUser }}>
             {children}
         </AuthContext.Provider>
     )
