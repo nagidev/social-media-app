@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
@@ -24,7 +23,6 @@ const Timeline = () => {
     const [loading, setLoading] = useState(false)
 
     const { getPosts, addPost } = usePosts()
-    const navigate = useNavigate()
 
     const handlePost = async (e) => {
         e.preventDefault()
@@ -42,6 +40,7 @@ const Timeline = () => {
         }
 
         setPosts([response, ...posts])
+        setPost({})
     }
 
     const loadPosts = async () => {
@@ -71,6 +70,7 @@ const Timeline = () => {
                         <Form.Control
                             type='text'
                             placeholder='New post...'
+                            value={post.text ? post.text : ''}
                             onChange={(e) => setPost({ ...post, text: e.target.value })}
                         />
                         {post.file &&
