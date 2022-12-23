@@ -21,10 +21,11 @@ app.use('/api/auth', require('./routes/auth'))
 app.use('/api/posts', require('./routes/posts'))
 
 // Connect to DB
+mongoose.set('strictQuery', true);
 mongoose
     .connect(process.env.DB_URI)
     .then(() => console.log('DB connected.'))
-    .catch(err => console.log(err))
+    .catch(err => console.log('Failed to connect:\n', err))
 
 // Start server
 app.listen(port, () => console.log(`Listening at port ${port}`))

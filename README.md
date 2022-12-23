@@ -2,6 +2,13 @@
 Social media clone powered by ReactJS, ExpressJS and NodeJS
 
 ## **Initial Setup**
+Make sure to include a `.env` file in the project's root folder with the following content:
+```
+PORT = <port number to run the webpage on>
+DB_URI = <link to your mondodb server>
+JWT_KEY = <a key to generate auth tokens>
+```
+
 From the project's root directory run
 ```
 npm install

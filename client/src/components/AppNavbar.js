@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons'
 
-import useAuth from "../hooks/useAuth";
+import useAuth from "../hooks/useAuth"
 
 const AppNavbar = () => {
     const { _user, logout } = useAuth()
